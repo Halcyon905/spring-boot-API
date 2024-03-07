@@ -1,16 +1,43 @@
 package ku.product.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ku.product.entity.Product;
+import ku.product.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
+    @Autowired
+    private ProductService service;
 
-    @GetMapping("/products")
-    public String getAllProducts() {
-        return "All Products";
+    @GetMapping("")
+    public List<Product> getAllProducts() {
+        return service.getAll();
+    }
+
+    @PostMapping("")
+    public Product create(@RequestBody Product product) {
+        return service.create(product);
+    }
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable int id) {
+        return service.getProductById(id);
+    }
+
+    @GetMapping("/{name}")
+    public Product getProductByName(@PathVariable String name) {
+        return service.getProductByName(name);
+    }
+
+    @GetMapping("/{type}")
+    public List<Product> getProductByType(@PathVariable String type) {
+        return service.getProductByType(type);
     }
 }
